@@ -1,0 +1,121 @@
+.json-container {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.tree, .tree ul, .tree li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tree ul {
+    padding-left: 1.5em;
+    position: relative;
+}
+
+.tree ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0.5em;
+    bottom: 0;
+    width: 2px;
+    background: #e0e0e0;
+}
+
+.tree li {
+    padding: 0.4em 0;
+    line-height: 1.6;
+    position: relative;
+}
+
+.tree li::before {
+    content: '';
+    position: absolute;
+    top: 0.8em;
+    left: -1em;
+    width: 1em;
+    height: 2px;
+    background: #e0e0e0;
+}
+
+.tree details {
+    margin: 0.3em 0;
+}
+
+.tree summary {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.tree summary::-webkit-details-marker {
+    display: none;
+}
+
+.tree summary::before {
+    content: '▶';
+    display: inline-block;
+    width: 1em;
+    margin-right: 0.5em;
+    transition: transform 0.2s;
+    color: #666;
+}
+
+.tree details[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.json-key { 
+    color: #0066cc;
+    margin-right: 0.5em;
+}
+
+.json-string { color: #008000; }
+.json-number { color: #0000ff; }
+.json-boolean { color: #b22222; }
+.json-null { color: #808080; }
+
+.json-highlight { 
+    background-color: #fff3cd; 
+    border-radius: 3px;
+    padding: 2px 4px;
+}
+
+.tree-node {
+    display: flex;
+    align-items: flex-start;
+    padding: 3px 0;
+}
+
+.tree-content {
+    flex: 1;
+}
+
+.tree-node:hover {
+    background-color: #f8f9fa;
+}
+
+.json-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.json-container::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    border-radius: 4px;
+}
+
+.json-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
