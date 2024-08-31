@@ -70,7 +70,7 @@ def render_json_tree(data: Any, key: str = "root", search_term: str = "", level:
         open_bracket = "{" if value_type == "object" else "["
         close_bracket = "}" if value_type == "object" else "]"
         return f"""
-        <div class="tree-node {highlight_class}">
+        <div class="tree-node {highlight_class}" style="padding-left: {level * 20}px;">
             <details {'open' if level < 2 else ''}>
                 <summary>
                     <span class="json-key">{key}</span><span class="bracket">{open_bracket}</span>
@@ -94,9 +94,9 @@ def render_json_tree(data: Any, key: str = "root", search_term: str = "", level:
             value = f'<span class="json-null">null</span>'
         else:
             value = str(data)
-        return f'<div class="tree-node {highlight_class}"><span class="json-key">{key}</span>: {value}</div>'
+        return f'<div class="tree-node {highlight_class}" style="padding-left: {level * 20}px;"><span class="json-key">{key}</span>: {value}</div>'
 
-def search_json(data: Any, term: str, path: str = "") -> List[Dict[str, str]]:
+def search_json(data: Any, term: str, path: str = "") -> List[Dict[str, Any]]:
     results = []
     if isinstance(data, dict):
         for k, v in data.items():
@@ -109,6 +109,11 @@ def search_json(data: Any, term: str, path: str = "") -> List[Dict[str, str]]:
             new_path = f"{path}[{i}]"
             results.extend(search_json(item, term, new_path))
     return results
+
+def format_value(value: Any) -> str:
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, indent=2)
+    return str(value)
 
 def main():
     st.title("JSON Tree Visualizer")
@@ -138,13 +143,13 @@ def main():
                     for result in search_results:
                         with st.expander(f"Path: {result['path']}"):
                             st.write(f"**Key:** {result['key']}")
-                            st.json(result['value'])
+                            st.code(format_value(result['value']), language='json')
                 
                 # Copy to clipboard functionality
                 if st.button("📋 Copy to Clipboard"):
                     st.code(json.dumps(json_data, indent=2))
                     st.success("✅ JSON copied to clipboard! (Use Ctrl+C to copy)")
-                    
+
     with right_column:
         st.header("JSON Tree View")
         if 'json_data' in locals():
